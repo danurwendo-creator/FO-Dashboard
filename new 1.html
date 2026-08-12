@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Performance FO - Mitratel (Auto Sync Google Sheets)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- Chart.js DataLabels Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <!-- Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- SheetJS (XLSX & CSV Parser) -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body class="bg-slate-100 font-sans p-4">
+
+    <!-- Header Section -->
+    <header class="bg-gradient-to-r from-red-800 to-red-600 text-white rounded-xl p-4 mb-4 shadow-md flex justify-between items-center">
+        <div>
+            <h1 class="text-2xl font-bold tracking-wide">Dashboard Performance FO Mitratel</h1>
+            <p class="text-xs text-red-200">Mitratel FO Trouble Ticket Data Analytics (Google Sheets Connected)</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <!-- Status Koneksi Google Sheets -->
+            <div id="gsStatusBadge" class="bg-red-900/50 text-white text-xs px-3 py-1.5 rounded-lg border border-white/20 flex items-center gap-2">
+                <i class="fa-solid fa-spinner fa-spin" id="gsLoadingIcon"></i>
+                <span id="gsStatusText">Memuat Google Sheets...</span>
+            </div>
+            <div class="bg-white px-3 py-1.5 rounded-lg shadow-sm border border-white/40 flex items-center gap-2">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACHkAAAKHCAYAAAAfPgZMAAAACXBIWXMAACxKAAAsSgF3enRNAAAgAElEQVR4nOzd33EU2bYv6pwd6x3KArQjbr3eVFuA2gK0LJCwAGEBwgKEBggLElhasBCx3vWwhAO3WhbkjYlGQQH6r/qTOef3RRDr7HPO3jsrM1WVOcdvjpG6rmsAAACA9UkpPW2a5rhpmsOu686cegAAAADuQsgDAAAA1igCHqdN07RN01w0TbMj6AEAAADAXfzhLAEAAMB6/BLwyJ7k/zqltO0SAAAAAHAbIQ8AAABYgysCHnOCHgAAAADcSfr//t//Jy8inY8m03+dMgC4v1k73hlNpqdOHQBwnRsCHouMbgEAAACql1LayWskhZ+H067rHlRb+k/TNLtN0xzM2vFR0zRHwh4AcDc53NE0zWHTNM/zM4fTBgBc5Y4Bj2aho4egBwAAAFCzXH95U8Hnf1DIYz6u5UmcpPNZOz6cteOnyz02AChHDnfM2nH+4f0cAQ8AgCvdI+AxZ3QLAAAAANf645f/B2EPALiGcAcAcB8PCHjMCXoAAAAAcKVfQx5zwh4AEIQ7AID7ekTAY07QAwAAAIDfXBfymBP2AKBawh0AwEMsIeAxJ+gBAAAAwE9uC3nMCXsAUA3hDgDgoZYY8JgT9AAAAADgu7uGPOaEPQAolnAHAPAYKwh4zAl6AAAAAPDNfUMec4thjwOnEoAhm7XjrVk7PhHuAAAeaoUBjzlBDwAAAAAeHPKYy4tM72btOIc99p1OAIYkwh3HTdP8r2maFy4eAPAQawh4zAl6AAAAAFTusSGPuWdN03wQ9gBgCPK4sYVwx56LBgA81BoDHnOCHgAAAAAVW1bIY24e9jh-t-33333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333" alt="Mitratel Logo" class="h-9 w-auto object-contain">
+            </div>
+        </div>
+    </header>
+
+    <!-- Filter Bar -->
+    <section class="bg-white p-2.5 rounded-xl shadow-sm border border-gray-200 mb-4 relative z-[9999] overflow-visible">
+        <div class="flex flex-nowrap items-center justify-between gap-1.5 min-w-[1020px] overflow-visible">
+
+            <!-- Filter Dropdowns -->
+            <div class="flex flex-nowrap items-center gap-1.5 overflow-visible">
+
+                <!-- Tgl Open Dropdown -->
+                <div class="relative inline-block text-left z-50">
+                    <button type="button" onclick="toggleDropdown('dropdownDateOpen')" class="bg-sky-500 hover:bg-sky-600 text-white text-[10px] xl:text-[11px] px-2 py-1 rounded-lg font-medium shadow-sm flex items-center gap-1 transition whitespace-nowrap">
+                        <span id="labelDateOpen">Tgl Open: Semua (0)</span>
+                        <i class="fa-solid fa-chevron-down text-[8px]"></i>
+                    </button>
+                    <div id="dropdownDateOpen" class="hidden absolute left-0 mt-1 w-52 bg-white border border-gray-200 rounded-lg shadow-2xl z-[100] p-2 text-xs">
+                        <div class="flex justify-between items-center pb-1.5 mb-1.5 border-b">
+                            <label class="flex items-center font-bold cursor-pointer text-sky-700">
+                                <input type="checkbox" id="chkAllDateOpen" onchange="toggleSelectAll('DateOpen')" checked class="mr-1.5 rounded text-sky-600"> Pilih Semua
+                            </label>
+                            <button onclick="closeDropdowns()" class="text-gray-400 hover:text-gray-600 text-xs"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <div id="optionsDateOpen" class="max-h-48 overflow-y-auto flex flex-col gap-1"></div>
+                    </div>
+                </div>
+
+                <!-- Area Dropdown -->
+                <div class="relative inline-block text-left z-50">
+                    <button type="button" onclick="toggleDropdown('dropdownArea')" class="bg-sky-500 hover:bg-sky-600 text-white text-[10px] xl:text-[11px] px-2 py-1 rounded-lg font-medium shadow-sm flex items-center gap-1 transition whitespace-nowrap">
+                        <span id="labelArea">Area: Semua (0)</span>
+                        <i class="fa-solid fa-chevron-down text-[8px]"></i>
+                    </button>
+                    <div id="dropdownArea" class="hidden absolute left-0 mt-1 w-52 bg-white border border-gray-200 rounded-lg shadow-2xl z-[100] p-2 text-xs">
+                        <div class="flex justify-between items-center pb-1.5 mb-1.5 border-b">
+                            <label class="flex items-center font-bold cursor-pointer text-sky-700">
+                                <input type="checkbox" id="chkAllArea" onchange="toggleSelectAll('Area')" checked class="mr-1.5 rounded text-sky-600"> Pilih Semua
+                            </label>
+                            <button onclick="closeDropdowns()" class="text-gray-400 hover:text-gray-600 text-xs"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <div id="optionsArea" class="max-h-48 overflow-y-auto flex flex-col gap-1"></div>
+                    </div>
+                </div>
+
+                <!-- Regional Dropdown -->
+                <div class="relative inline-block text-left z-50">
+                    <button type="button" onclick="toggleDropdown('dropdownRegional')" class="bg-sky-500 hover:bg-sky-600 text-white text-[10px] xl:text-[11px] px-2 py-1 rounded-lg font-medium shadow-sm flex items-center gap-1 transition whitespace-nowrap">
+                        <span id="labelRegional">Reg.: Semua (0)</span>
+                        <i class="fa-solid fa-chevron-down text-[8px]"></i>
+                    </button>
+                    <div id="dropdownRegional" class="hidden absolute left-0 mt-1 w-56 bg-white border border-gray-200 rounded-lg shadow-2xl z-[100] p-2 text-xs">
+                        <div class="flex justify-between items-center pb-1.5 mb-1.5 border-b">
+                            <label class="flex items-center font-bold cursor-pointer text-sky-700">
+                                <input type="checkbox" id="chkAllRegional" onchange="toggleSelectAll('Regional')" checked class="mr-1.5 rounded text-sky-600"> Pilih Semua
+                            </label>
+                            <button onclick="closeDropdowns()" class="text-gray-400 hover:text-gray-600 text-xs"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <div id="optionsRegional" class="max-h-48 overflow-y-auto flex flex-col gap-1"></div>
+                    </div>
+                </div>
+
+                <!-- Status Ticket Dropdown -->
+                <div class="relative inline-block text-left z-50">
+                    <button type="button" onclick="toggleDropdown('dropdownStatus')" class="bg-sky-500 hover:bg-sky-600 text-white text-[10px] xl:text-[11px] px-2 py-1 rounded-lg font-medium shadow-sm flex items-center gap-1 transition whitespace-nowrap">
+                        <span id="labelStatus">Status: Semua (0)</span>
+                        <i class="fa-solid fa-chevron-down text-[8px]"></i>
+                    </button>
+                    <div id="dropdownStatus" class="hidden absolute left-0 mt-1 w-52 bg-white border border-gray-200 rounded-lg shadow-2xl z-[100] p-2 text-xs">
+                        <div class="flex justify-between items-center pb-1.5 mb-1.5 border-b">
+                            <label class="flex items-center font-bold cursor-pointer text-sky-700">
+                                <input type="checkbox" id="chkAllStatus" onchange="toggleSelectAll('Status')" checked class="mr-1.5 rounded text-sky-600"> Pilih Semua
+                            </label>
+                            <button onclick="closeDropdowns()" class="text-gray-400 hover:text-gray-600 text-xs"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <div id="optionsStatus" class="max-h-48 overflow-y-auto flex flex-col gap-1"></div>
+                    </div>
+                </div>
+
+                <!-- MNO Dropdown -->
+                <div class="relative inline-block text-left z-50">
+                    <button type="button" onclick="toggleDropdown('dropdownMNO')" class="bg-sky-500 hover:bg-sky-600 text-white text-[10px] xl:text-[11px] px-2 py-1 rounded-lg font-medium shadow-sm flex items-center gap-1 transition whitespace-nowrap">
+                        <span id="labelMNO">MNO: Semua (0)</span>
+                        <i class="fa-solid fa-chevron-down text-[8px]"></i>
+                    </button>
+                    <div id="dropdownMNO" class="hidden absolute left-0 mt-1 w-48 bg-white border border-gray-200 rounded-lg shadow-2xl z-[100] p-2 text-xs">
+                        <div class="flex justify-between items-center pb-1.5 mb-1.5 border-b">
+                            <label class="flex items-center font-bold cursor-pointer text-sky-700">
+                                <input type="checkbox" id="chkAllMNO" onchange="toggleSelectAll('MNO')" checked class="mr-1.5 rounded text-sky-600"> Pilih Semua
+                            </label>
+                            <button onclick="closeDropdowns()" class="text-gray-400 hover:text-gray-600 text-xs"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <div id="optionsMNO" class="max-h-48 overflow-y-auto flex flex-col gap-1"></div>
+                    </div>
+                </div>
+
+                <!-- Status SoW Filter Dropdown -->
+                <div class="relative inline-block text-left z-50">
+                    <button type="button" onclick="toggleDropdown('dropdownSoW')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] xl:text-[11px] px-2 py-1 rounded-lg font-medium shadow-sm flex items-center gap-1 transition whitespace-nowrap">
+                        <span id="labelSoW">SoW: SoW Only (1/2)</span>
+                        <i class="fa-solid fa-chevron-down text-[8px]"></i>
+                    </button>
+                    <div id="dropdownSoW" class="hidden absolute left-0 mt-1 w-48 bg-white border border-gray-200 rounded-lg shadow-2xl z-[100] p-2 text-xs">
+                        <div class="flex justify-between items-center pb-1.5 mb-1.5 border-b">
+                            <label class="flex items-center font-bold cursor-pointer text-indigo-700">
+                                <input type="checkbox" id="chkAllSoW" onchange="toggleSelectAll('SoW')" class="mr-1.5 rounded text-indigo-600"> Pilih Semua
+                            </label>
+                            <button onclick="closeDropdowns()" class="text-gray-400 hover:text-gray-600 text-xs"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <div id="optionsSoW" class="max-h-48 overflow-y-auto flex flex-col gap-1"></div>
+                    </div>
+                </div>
+
+                <!-- Ticket Info Filter Dropdown -->
+                <div class="relative inline-block text-left z-50">
+                    <button type="button" onclick="toggleDropdown('dropdownTicketInfo')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] xl:text-[11px] px-2 py-1 rounded-lg font-medium shadow-sm flex items-center gap-1 transition whitespace-nowrap">
+                        <span id="labelTicketInfo">Ticket Info: MMP Only (1/2)</span>
+                        <i class="fa-solid fa-chevron-down text-[8px]"></i>
+                    </button>
+                    <div id="dropdownTicketInfo" class="hidden absolute left-0 mt-1 w-48 bg-white border border-gray-200 rounded-lg shadow-2xl z-[100] p-2 text-xs">
+                        <div class="flex justify-between items-center pb-1.5 mb-1.5 border-b">
+                            <label class="flex items-center font-bold cursor-pointer text-indigo-700">
+                                <input type="checkbox" id="chkAllTicketInfo" onchange="toggleSelectAll('TicketInfo')" class="mr-1.5 rounded text-indigo-600"> Pilih Semua
+                            </label>
+                            <button onclick="closeDropdowns()" class="text-gray-400 hover:text-gray-600 text-xs"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <div id="optionsTicketInfo" class="max-h-48 overflow-y-auto flex flex-col gap-1"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Toggles & Refresh Button -->
+            <div class="flex flex-nowrap items-center gap-1.5 shrink-0">
+
+                <!-- TOGGLE 1: DUPLIKASI -->
+                <div class="flex items-center bg-slate-50 border border-slate-200 px-2 py-1 rounded-lg shadow-sm gap-1 whitespace-nowrap">
+                    <span class="text-[10px] xl:text-[11px] font-bold text-slate-700 flex items-center gap-1">
+                        <i class="fa-solid fa-copy text-emerald-600 text-[9px]"></i> Duplikasi:
+                    </span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="toggleDuplicate" class="sr-only peer" checked onchange="handleDuplicateToggle(this.checked)">
+                        <div class="w-6 h-3.5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-2.5 after:w-2.5 after:transition-all peer-checked:bg-emerald-500"></div>
+                        <span id="toggleText" class="ml-1 text-[10px] xl:text-[11px] font-bold text-emerald-600">ON</span>
+                    </label>
+                </div>
+
+                <!-- TOGGLE 2: STOP CLOCK -->
+                <div class="flex items-center bg-slate-50 border border-slate-200 px-2 py-1 rounded-lg shadow-sm gap-1 whitespace-nowrap">
+                    <span class="text-[10px] xl:text-[11px] font-bold text-slate-700 flex items-center gap-1">
+                        <i class="fa-solid fa-clock text-amber-500 text-[9px]"></i> Stop Clock:
+                    </span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="toggleStopClock" class="sr-only peer" checked onchange="handleStopClockToggle(this.checked)">
+                        <div class="w-6 h-3.5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-2.5 after:w-2.5 after:transition-all peer-checked:bg-amber-500"></div>
+                        <span id="toggleStopClockText" class="ml-1 text-[10px] xl:text-[11px] font-bold text-amber-600">ON</span>
+                    </label>
+                </div>
+
+                <!-- Tombol Refresh Data Google Sheets -->
+                <button onclick="loadGoogleSheetData()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] xl:text-[11px] px-2.5 py-1 rounded-lg shadow-sm font-bold transition flex items-center gap-1 whitespace-nowrap">
+                    <i class="fa-solid fa-rotate text-xs"></i>
+                    <span>Refresh Data</span>
+                </button>
+
+                <!-- Opsional: Manual Upload File Excel Tetap Disediakan -->
+                <label class="bg-slate-600 hover:bg-slate-700 text-white text-[10px] xl:text-[11px] px-2 py-1 rounded-lg shadow-sm cursor-pointer flex items-center gap-1 font-bold transition whitespace-nowrap">
+                    <i class="fa-solid fa-file-excel text-xs"></i>
+                    <input type="file" id="excelFileInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFileUpload(event)">
+                </label>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- KPI Metric Cards -->
+    <section class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+        <div class="bg-orange-500 text-white p-4 rounded-xl shadow-md text-center">
+            <span class="text-xs uppercase font-semibold tracking-wider opacity-90">Total TT</span>
+            <div id="kpiTotalTT" class="text-2xl font-extrabold mt-1">0</div>
+            <span id="kpiTotalBadge" class="text-[10px] bg-emerald-600/90 px-2 py-0.5 rounded font-bold">Tiket Unique (ON)</span>
+        </div>
+        <div class="bg-orange-500 text-white p-4 rounded-xl shadow-md text-center">
+            <span class="text-xs uppercase font-semibold tracking-wider opacity-90">Closed TT</span>
+            <div id="kpiClosedTT" class="text-2xl font-extrabold mt-1">0</div>
+            <span class="text-[10px] bg-orange-600/60 px-2 py-0.5 rounded">Closed / Tech Close</span>
+        </div>
+        <div class="bg-orange-500 text-white p-4 rounded-xl shadow-md text-center">
+            <span class="text-xs uppercase font-semibold tracking-wider opacity-90">TT Cancel</span>
+            <div id="kpiCancelledTT" class="text-2xl font-extrabold mt-1">0</div>
+            <span class="text-[10px] bg-orange-600/60 px-2 py-0.5 rounded">Tiket Dibatalkan</span>
+        </div>
+        <div class="bg-orange-500 text-white p-4 rounded-xl shadow-md text-center">
+            <span class="text-xs uppercase font-semibold tracking-wider opacity-90">Rata-rata MTTR NET</span>
+            <div id="kpiAvgMTTR" class="text-2xl font-extrabold mt-1">0.00 <span class="text-sm font-normal">Jam</span></div>
+            <span id="kpiAvgMTTRBadge" class="text-[10px] bg-amber-600/80 px-2 py-0.5 rounded font-bold">Stop Clock Deduced (ON)</span>
+        </div>
+        <div class="bg-orange-500 text-white p-4 rounded-xl shadow-md text-center">
+            <span class="text-xs uppercase font-semibold tracking-wider opacity-90">SLA Compliance</span>
+            <div id="kpiSLA" class="text-2xl font-extrabold mt-1">0.0%</div>
+            <span class="text-[10px] bg-orange-600/60 px-2 py-0.5 rounded">&le; 4 Jam Target</span>
+        </div>
+    </section>
+
+    <!-- SECTION 1: MAP & REGIONAL -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
+        <div class="lg:col-span-7 bg-white p-4 rounded-xl shadow-md border border-gray-100 flex flex-col">
+            <div class="flex justify-between items-center mb-2 border-b pb-2">
+                <div>
+                    <h2 class="text-md font-bold text-gray-700">Sebaran Gangguan (Tiket)</h2>
+                    <p class="text-[11px] text-gray-500">Setiap pin mewakili lokasi gangguan berdasarkan kolom Tiket pada file</p>
+                </div>
+                <span id="mapCounter" class="text-xs text-sky-700 font-semibold bg-sky-50 px-2 py-1 rounded border border-sky-200">
+                    <i class="fa-solid fa-ticket text-red-500 mr-1"></i>0 Tiket
+                </span>
+            </div>
+            <div id="map" class="w-full h-80 rounded-lg z-10 flex-1"></div>
+        </div>
+
+        <div class="lg:col-span-5 bg-white p-4 rounded-xl shadow-md border border-gray-100 flex flex-col">
+            <div class="flex justify-between items-center mb-2 border-b pb-2">
+                <div>
+                    <h2 class="text-md font-bold text-gray-700">Top Regional Trouble Tickets</h2>
+                    <p class="text-[11px] text-gray-500">Batang: Total Tiket per Regional | Garis: Avg MTTR NET (Jam)</p>
+                </div>
+                <span class="text-[10px] bg-sky-100 text-sky-800 px-2 py-0.5 rounded font-semibold">Regional</span>
+            </div>
+            <div class="h-80 relative">
+                <canvas id="regionalChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: TRENDS & MNO -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
+        <div class="lg:col-span-7 bg-white p-4 rounded-xl shadow-md border border-gray-100">
+            <div class="flex flex-wrap justify-between items-center mb-3 border-b pb-2 gap-2">
+                <div>
+                    <h2 class="text-md font-bold text-gray-700">Tren MTTR &amp; Jumlah Tiket SLA</h2>
+                    <p class="text-[11px] text-gray-500">Perbandingan In SLA, Out SLA (Sumbu Kiri) dan Rata-rata MTTR Jam (Sumbu Kanan)</p>
+                </div>
+                <div class="inline-flex rounded-lg p-0.5 bg-slate-100 border border-slate-200 text-xs font-semibold">
+                    <button id="btnDaily" onclick="setTimeGranularity('daily')" class="px-3 py-1 rounded-md bg-sky-600 text-white shadow-sm transition">Daily</button>
+                    <button id="btnWeekly" onclick="setTimeGranularity('weekly')" class="px-3 py-1 rounded-md text-gray-600 hover:text-sky-600 transition">Weekly</button>
+                    <button id="btnMonthly" onclick="setTimeGranularity('monthly')" class="px-3 py-1 rounded-md text-gray-600 hover:text-sky-600 transition">Monthly</button>
+                </div>
+            </div>
+            <div class="h-72 relative">
+                <canvas id="mttrTrendChart"></canvas>
+            </div>
+        </div>
+
+        <div class="lg:col-span-5 bg-white p-4 rounded-xl shadow-md border border-gray-100">
+            <div class="flex justify-between items-center mb-3 border-b pb-2">
+                <div>
+                    <h2 class="text-md font-bold text-gray-700">Distribusi MNO (Combo Chart)</h2>
+                    <p class="text-[11px] text-gray-500">Batang: Total Tiket per MNO | Garis: Avg MTTR (Jam)</p>
+                </div>
+                <span class="text-[10px] bg-purple-100 text-purple-800 px-2 py-0.5 rounded font-semibold">MNO Combo</span>
+            </div>
+            <div class="h-72 relative">
+                <canvas id="mnoComboChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: TREN MTTR BERBASIS MNO -->
+    <section class="mb-6">
+        <div class="bg-white p-4 rounded-xl shadow-md border border-gray-100">
+            <div class="flex flex-wrap justify-between items-center mb-3 border-b pb-2 gap-2">
+                <div>
+                    <h2 class="text-md font-bold text-gray-700">Tren MTTR &amp; Jumlah Tiket Berbasis MNO</h2>
+                    <p class="text-[11px] text-gray-500">Analisis tren performa MTTR Jam dan volume tiket spesifik per MNO pilihan</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <div class="inline-flex rounded-lg p-0.5 bg-slate-100 border border-slate-200 text-xs font-semibold">
+                        <button id="btnMnoTrend_ALL" onclick="setMnoTrendFilter('ALL')" class="px-2.5 py-1 rounded-md bg-purple-600 text-white shadow-sm transition">Semua MNO</button>
+                        <button id="btnMnoTrend_IOH" onclick="setMnoTrendFilter('IOH')" class="px-2.5 py-1 rounded-md text-gray-600 hover:text-amber-600 transition">IOH</button>
+                        <button id="btnMnoTrend_TSEL" onclick="setMnoTrendFilter('TSEL')" class="px-2.5 py-1 rounded-md text-gray-600 hover:text-red-600 transition">TSEL</button>
+                        <button id="btnMnoTrend_XL" onclick="setMnoTrendFilter('XL')" class="px-2.5 py-1 rounded-md text-gray-600 hover:text-blue-600 transition">XL</button>
+                        <button id="btnMnoTrend_ALITA" onclick="setMnoTrendFilter('ALITA')" class="px-2.5 py-1 rounded-md text-gray-600 hover:text-slate-800 transition">ALITA</button>
+                        <button id="btnMnoTrend_Other" onclick="setMnoTrendFilter('Other')" class="px-2.5 py-1 rounded-md text-gray-600 hover:text-gray-800 transition">Other</button>
+                    </div>
+                    <div class="inline-flex rounded-lg p-0.5 bg-slate-100 border border-slate-200 text-xs font-semibold">
+                        <button id="btnMnoDaily" onclick="setMnoTrendGranularity('daily')" class="px-2.5 py-1 rounded-md bg-sky-600 text-white shadow-sm transition">Daily</button>
+                        <button id="btnMnoWeekly" onclick="setMnoTrendGranularity('weekly')" class="px-2.5 py-1 rounded-md text-gray-600 hover:text-sky-600 transition">Weekly</button>
+                        <button id="btnMnoMonthly" onclick="setMnoTrendGranularity('monthly')" class="px-2.5 py-1 rounded-md text-gray-600 hover:text-sky-600 transition">Monthly</button>
+                    </div>
+                </div>
+            </div>
+            <div class="h-72 relative">
+                <canvas id="mnoTrendChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: SLA COMPLIANCE, SPAN REPETITIVE & TOP RCA PARETO -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-3 bg-white p-4 rounded-xl shadow-md border border-gray-100 flex flex-col justify-between">
+            <div class="border-b pb-2 mb-2">
+                <h2 class="text-sm font-bold text-gray-700 text-center">Compliance SLA Target (&le; 4 Jam)</h2>
+            </div>
+            <div class="h-48 relative flex items-center justify-center">
+                <canvas id="slaDonutChart"></canvas>
+            </div>
+            <div class="flex justify-center gap-4 text-xs font-semibold mt-2 pt-2 border-t text-gray-600">
+                <span class="flex items-center gap-1"><i class="fa-solid fa-square text-emerald-500"></i> In SLA</span>
+                <span class="flex items-center gap-1"><i class="fa-solid fa-square text-red-500"></i> Out SLA</span>
+            </div>
+        </div>
+
+        <div class="lg:col-span-5 bg-white p-4 rounded-xl shadow-md border border-gray-100 flex flex-col">
+            <div class="flex justify-between items-center mb-2 border-b pb-2">
+                <div>
+                    <h2 class="text-sm font-bold text-gray-700">Span Repetitive Ranking (Site Down &lt;&gt; Site Detector)</h2>
+                    <p class="text-[10px] text-gray-400">Menampilkan seluruh pasangan span beserta detail RCA</p>
+                </div>
+                <span id="spanCounter" class="text-[10px] bg-sky-100 text-sky-800 px-2 py-0.5 rounded font-semibold">0 Span Pair</span>
+            </div>
+            <div class="overflow-y-auto max-h-72 flex-1">
+                <table class="w-full text-xs text-left text-gray-600">
+                    <thead class="text-[11px] text-gray-700 uppercase bg-slate-100 sticky top-0 z-10 shadow-sm">
+                        <tr>
+                            <th class="px-2 py-2 w-8">No</th>
+                            <th class="px-2 py-2">Span Pair (Site Down &lt;&gt; Site Detector)</th>
+                            <th class="px-2 py-2 text-center w-24">Jumlah TT</th>
+                            <th class="px-2 py-2">RCA (Root Cause Analysis)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="spanTableBody">
+                        <tr>
+                            <td colspan="4" class="text-center py-4 text-gray-400">Memuat data...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="lg:col-span-4 bg-white p-4 rounded-xl shadow-md border border-gray-100 flex flex-col">
+            <div class="flex justify-between items-center mb-2 border-b pb-2">
+                <div>
+                    <h2 class="text-sm font-bold text-gray-700">Top 10 RCA (Timely Report &amp; All RCA)</h2>
+                    <p class="text-[10px] text-gray-400">Distribusi 10 Akar Masalah Utama Gangguan</p>
+                </div>
+                <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-semibold">Top 10 RCA</span>
+            </div>
+            <div class="h-72 relative">
+                <canvas id="rootCauseChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: BRANCH PERFORMANCE VISUALIZATION -->
+    <section class="mt-6 mb-6">
+        <div class="bg-white p-4 rounded-xl shadow-md border border-gray-100">
+            <div class="flex justify-between items-center mb-3 border-b pb-2">
+                <div>
+                    <h2 class="text-md font-bold text-gray-700">Performa Branch / Cabang (Branch Performance)</h2>
+                    <p class="text-[11px] text-gray-500">Perbandingan Jumlah Tiket (In SLA vs Out SLA) dan Rata-rata MTTR NET (Jam) per Branch</p>
+                </div>
+                <span id="branchCounter" class="text-[10px] bg-teal-100 text-teal-800 px-2.5 py-1 rounded font-bold">0 Branch</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-8 h-80 relative">
+                    <canvas id="branchChart"></canvas>
+                </div>
+
+                <div class="lg:col-span-4 overflow-y-auto max-h-80 border rounded-lg border-gray-200">
+                    <table class="w-full text-xs text-left text-gray-600">
+                        <thead class="text-[11px] text-gray-700 uppercase bg-slate-100 sticky top-0 z-10 shadow-sm">
+                            <tr>
+                                <th class="px-2.5 py-2">Branch</th>
+                                <th class="px-2 py-2 text-center">Total TT</th>
+                                <th class="px-2 py-2 text-center">SLA %</th>
+                                <th class="px-2 py-2 text-center">Avg MTTR</th>
+                            </tr>
+                        </thead>
+                        <tbody id="branchTableBody">
+                            <tr>
+                                <td colspan="4" class="text-center py-4 text-gray-400">Tidak ada data Branch.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // =========================================================================
+        // ⚠️ MASUKKAN LINK CSV PUBLISH TO WEB GOOGLE SPREADSHEET ANDA DI SINI
+        // =========================================================================
+     
+        // Register ChartDataLabels plugin
+        Chart.register(ChartDataLabels);
+
+        let rawDataset = [];
+        let map, markersLayer;
+        const redIcon = L.icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+        let chartInstances = {};
+        let timeGranularity = 'daily'; 
+        let mnoTrendGranularity = 'daily'; 
+        let selectedMnoTrend = 'ALL'; 
+        let deduplicateTiket = true;   
+        let applyStopClock = true;     
+
+        let filterOptions = { DateOpen: [], Area: [], Regional: [], Status: [], MNO: [], SoW: ['SoW', 'Non-SoW'], TicketInfo: ['MMP', 'Non-MMP'] };
+        let selectedFilters = { DateOpen: [], Area: [], Regional: [], Status: [], MNO: [], SoW: ['SoW'], TicketInfo: ['MMP'] };
+
+        // FUNGSI UTAMA: LOAD DATA DARI GOOGLE SHEETS
+// Paste Web App URL yang disalin dari Langkah 1 ke sini
+const GOOGLE_SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxnXBgT55xg25mDKfbhY0DXsHq7_M9qHCw8O-bx688ELIU0bWYSyTDwe3fEgS6vn_2FCg/exec";
+
+async function loadGoogleSheetData(forceRefresh = false) {
+    const badgeText = document.getElementById('gsStatusText');
+    const loadingIcon = document.getElementById('gsLoadingIcon');
+    const badgeContainer = document.getElementById('gsStatusBadge');
+
+    if (!GOOGLE_SHEET_WEBAPP_URL || GOOGLE_SHEET_WEBAPP_URL.includes("AKfycb...")) {
+        if (badgeText) badgeText.innerText = "URL Web App Belum Diisi";
+        if (loadingIcon) loadingIcon.className = "fa-solid fa-triangle-exclamation text-amber-300";
+        return;
+    }
+
+    // 1. CEK CACHE LOCALSTORAGE (JIKA ADA & BISA DIBACA)
+    const cachedData = localStorage.getItem('dashboard_mitratel_data');
+    if (cachedData && !forceRefresh) {
+        try {
+            rawDataset = JSON.parse(cachedData);
+            populateFilterDropdowns(rawDataset);
+            applyFilters();
+
+            if (badgeText) badgeText.innerText = "Loaded from Cache";
+            if (loadingIcon) loadingIcon.className = "fa-solid fa-bolt text-amber-300";
+            if (badgeContainer) badgeContainer.className = "bg-sky-900/80 text-white text-xs px-3 py-1.5 rounded-lg border border-sky-400/30 flex items-center gap-2";
+            return;
+        } catch (e) {
+            console.warn("Cache corrupted, fetching new data...");
+        }
+    }
+
+    // 2. FETCH DATA JSON LANGSUNG DARI GOOGLE APPS SCRIPT
+    try {
+        if (badgeText) badgeText.innerText = "Menghubungkan API...";
+        if (loadingIcon) loadingIcon.className = "fa-solid fa-spinner fa-spin";
+
+        const response = await fetch(GOOGLE_SHEET_WEBAPP_URL);
+        if (!response.ok) throw new Error("Gagal mengambil data dari Google Apps Script");
+
+        // Parsing JSON langsung
+        rawDataset = await response.json();
+
+        // SIMPAN KE CACHE DENGAN PENGAMAN (Agar tidak crash jika ukuran data > 5MB)
+        try {
+            localStorage.setItem('dashboard_mitratel_data', JSON.stringify(rawDataset));
+        } catch (quotaError) {
+            console.warn("Ukuran data terlalu besar untuk cache browser (>5MB). Melewati simpan cache...", quotaError);
+        }
+
+        // PROSES DAN TAMPILKAN VISUALISASI DATA
+        populateFilterDropdowns(rawDataset);
+        applyFilters();
+
+        if (badgeText) badgeText.innerText = "Google Sheets Connected";
+        if (loadingIcon) loadingIcon.className = "fa-solid fa-circle-check text-emerald-400";
+        if (badgeContainer) badgeContainer.className = "bg-emerald-900/60 text-white text-xs px-3 py-1.5 rounded-lg border border-emerald-400/30 flex items-center gap-2";
+
+    } catch (err) {
+        console.error("Error loading Google Sheet Data:", err);
+        if (badgeText) badgeText.innerText = "Gagal Sinkronisasi";
+        if (loadingIcon) loadingIcon.className = "fa-solid fa-circle-xmark text-red-300";
+        if (badgeContainer) badgeContainer.className = "bg-red-900/80 text-white text-xs px-3 py-1.5 rounded-lg border border-red-400/30 flex items-center gap-2";
+    }
+}
+
+        function initMap() {
+            map = L.map('map').setView([-2.548926, 118.014863], 4.5);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
+            markersLayer = L.layerGroup().addTo(map);
+        }
+
+        function initCharts() {
+            const chartOptions = { responsive: true, maintainAspectRatio: false };
+
+            chartInstances.rca = new Chart(document.getElementById('rootCauseChart'), {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Jumlah Insiden',
+                        data: [],
+                        backgroundColor: ['#e11d48', '#a855f7', '#0284c7', '#f59e0b', '#10b981', '#ec4899', '#6366f1', '#14b8a6', '#8b5cf6', '#f97316'],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    ...chartOptions,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: { display: false },
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'end',
+                            color: '#1e293b',
+                            font: { weight: 'bold', size: 9 },
+                            formatter: (val) => val > 0 ? val : ''
+                        }
+                    },
+                    scales: {
+                        x: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { font: { size: 9 } } },
+                        y: { ticks: { font: { size: 9 } }, grid: { display: false } }
+                    }
+                }
+            });
+
+            chartInstances.trend = new Chart(document.getElementById('mttrTrendChart'), {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [
+                        { label: 'In SLA', data: [], backgroundColor: '#a855f7', yAxisID: 'yTT', order: 2, datalabels: { align: 'center', color: '#fff', font: { size: 10, weight: 'bold' } } },
+                        { label: 'Out SLA', data: [], backgroundColor: '#f97316', yAxisID: 'yTT', order: 2, datalabels: { align: 'center', color: '#fff', font: { size: 10, weight: 'bold' } } },
+                        { label: 'Avg MTTR (Jam)', data: [], type: 'line', borderColor: '#0284c7', backgroundColor: '#0284c7', borderWidth: 3, pointRadius: 4, fill: false, tension: 0.4, order: 1, yAxisID: 'yTTR', datalabels: { align: 'top', color: '#000000', backgroundColor: '#ffffff', borderColor: '#000000', borderWidth: 1, borderRadius: 3, padding: { top: 1, bottom: 1, left: 3, right: 3 }, font: { size: 10, weight: 'bold' }, formatter: (v) => v ? v + 'h' : '' } }
+                    ]
+                },
+                options: {
+                    ...chartOptions,
+                    plugins: {
+                        legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11 } } },
+                        datalabels: { formatter: (val) => val > 0 ? val : '' }
+                    },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+                        yTT: { type: 'linear', position: 'left', title: { display: true, text: 'Jumlah Tiket', font: { size: 10 } }, grid: { color: '#f1f5f9' }, beginAtZero: true },
+                        yTTR: { type: 'linear', position: 'right', title: { display: true, text: 'MTTR NET (Jam)', font: { size: 10 } }, grid: { drawOnChartArea: false }, beginAtZero: true }
+                    }
+                }
+            });
+
+            function getMNOBgColor(context) {
+                const label = (context.chart.data.labels[context.dataIndex] || '').toUpperCase().trim();
+                if (label.includes('IOH') || label.includes('INDOSAT')) return '#eab308';
+                if (label.includes('ALITA')) return '#000000';
+                if (label.includes('TSEL') || label.includes('TELKOMSEL')) return '#ef4444';
+                if (label.includes('XL')) return '#2563eb';
+                return '#f8fafc';
+            }
+
+            function getMNOBorderColor(context) {
+                const label = (context.chart.data.labels[context.dataIndex] || '').toUpperCase().trim();
+                if (label.includes('IOH') || label.includes('INDOSAT')) return '#ef4444';
+                if (label.includes('ALITA')) return '#f97316';
+                if (label.includes('TSEL') || label.includes('TELKOMSEL')) return '#000000';
+                if (label.includes('XL')) return '#ec4899';
+                return '#000000';
+            }
+
+            chartInstances.mnoTrend = new Chart(document.getElementById('mnoTrendChart'), {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [
+                        { label: 'IOH (In SLA)', data: [], stack: 'IOH', backgroundColor: '#eab308', yAxisID: 'yTT', order: 2, datalabels: { align: 'center', color: '#000', font: { size: 10, weight: 'bold' } } },
+                        { label: 'IOH (Out SLA)', data: [], stack: 'IOH', backgroundColor: '#ca8a04', yAxisID: 'yTT', order: 2, datalabels: { align: 'center', color: '#fff', font: { size: 10, weight: 'bold' } } },
+                        { label: 'XL (In SLA)', data: [], stack: 'XL', backgroundColor: '#3b82f6', yAxisID: 'yTT', order: 2, datalabels: { align: 'center', color: '#fff', font: { size: 10, weight: 'bold' } } },
+                        { label: 'XL (Out SLA)', data: [], stack: 'XL', backgroundColor: '#1d4ed8', yAxisID: 'yTT', order: 2, datalabels: { align: 'center', color: '#fff', font: { size: 10, weight: 'bold' } } },
+                        { label: 'TSEL (In SLA)', data: [], stack: 'TSEL', backgroundColor: '#ef4444', yAxisID: 'yTT', order: 2, datalabels: { align: 'center', color: '#fff', font: { size: 10, weight: 'bold' } } },
+                        { label: 'TSEL (Out SLA)', data: [], stack: 'TSEL', backgroundColor: '#991b1b', yAxisID: 'yTT', order: 2, datalabels: { align: 'center', color: '#fff', font: { size: 10, weight: 'bold' } } },
+                        { label: 'ALITA (In SLA)', data: [], stack: 'ALITA', backgroundColor: '#64748b', yAxisID: 'yTT', order: 2, datalabels: { align: 'center', color: '#fff', font: { size: 10, weight: 'bold' } } },
+                        { label: 'ALITA (Out SLA)', data: [], stack: 'ALITA', backgroundColor: '#0f172a', yAxisID: 'yTT', order: 2, datalabels: { align: 'center', color: '#fff', font: { size: 10, weight: 'bold' } } },
+                        { label: 'Total Avg MTTR', data: [], type: 'line', borderColor: '#0284c7', backgroundColor: '#0284c7', borderWidth: 3, pointRadius: 4, fill: false, tension: 0.3, order: 1, yAxisID: 'yTTR', datalabels: { align: 'top', color: '#000000', backgroundColor: '#ffffff', borderColor: '#000000', borderWidth: 1, borderRadius: 3, padding: { top: 1, bottom: 1, left: 3, right: 3 }, font: { size: 10, weight: 'bold' }, formatter: (v) => v ? v + 'h' : '' } },
+                        { label: 'IOH MTTR', data: [], type: 'line', borderColor: '#d97706', backgroundColor: '#d97706', borderWidth: 2, borderDash: [4, 3], pointRadius: 3, fill: false, tension: 0.3, order: 1, yAxisID: 'yTTR', datalabels: { align: 'top', color: '#b45309', font: { size: 9, weight: 'bold' }, formatter: (v) => v ? v + 'h' : '' } },
+                        { label: 'XL MTTR', data: [], type: 'line', borderColor: '#2563eb', backgroundColor: '#2563eb', borderWidth: 2, borderDash: [4, 3], pointRadius: 3, fill: false, tension: 0.3, order: 1, yAxisID: 'yTTR', datalabels: { align: 'top', color: '#1d4ed8', font: { size: 9, weight: 'bold' }, formatter: (v) => v ? v + 'h' : '' } },
+                        { label: 'TSEL MTTR', data: [], type: 'line', borderColor: '#ef4444', backgroundColor: '#ef4444', borderWidth: 2, borderDash: [4, 3], pointRadius: 3, fill: false, tension: 0.3, order: 1, yAxisID: 'yTTR', datalabels: { align: 'top', color: '#b91c1c', font: { size: 9, weight: 'bold' }, formatter: (v) => v ? v + 'h' : '' } },
+                        { label: 'ALITA MTTR', data: [], type: 'line', borderColor: '#475569', backgroundColor: '#475569', borderWidth: 2, borderDash: [4, 3], pointRadius: 3, fill: false, tension: 0.3, order: 1, yAxisID: 'yTTR', datalabels: { align: 'top', color: '#0f172a', font: { size: 9, weight: 'bold' }, formatter: (v) => v ? v + 'h' : '' } }
+                    ]
+                },
+                options: {
+                    ...chartOptions,
+                    categoryPercentage: 0.85,
+                    barPercentage: 1.0,
+                    plugins: {
+                        legend: { position: 'top', labels: { boxWidth: 10, font: { size: 10 } } },
+                        datalabels: { formatter: (val) => val > 0 ? val : '' }
+                    },
+                    scales: {
+                        x: { stacked: false, grid: { display: false }, ticks: { font: { size: 10 } } },
+                        yTT: { stacked: true, type: 'linear', position: 'left', title: { display: true, text: 'Jumlah Tiket', font: { size: 10 } }, grid: { color: '#f1f5f9' }, beginAtZero: true },
+                        yTTR: { type: 'linear', position: 'right', title: { display: true, text: 'MTTR NET (Jam)', font: { size: 10 } }, grid: { drawOnChartArea: false }, beginAtZero: true }
+                    }
+                }
+            });
+
+            chartInstances.mnoCombo = new Chart(document.getElementById('mnoComboChart'), {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: 'Total Tiket',
+                            data: [],
+                            backgroundColor: getMNOBgColor,
+                            borderColor: getMNOBorderColor,
+                            borderWidth: 2,
+                            yAxisID: 'yTT',
+                            order: 2,
+                            datalabels: {
+                                anchor: 'end',
+                                align: 'top',
+                                font: { size: 10, weight: 'bold' }
+                            }
+                        },
+                        {
+                            label: 'Avg MTTR (Jam)',
+                            data: [],
+                            type: 'line',
+                            borderColor: '#0284c7',
+                            backgroundColor: '#0284c7',
+                            borderWidth: 3,
+                            pointRadius: 4,
+                            fill: false,
+                            tension: 0.4,
+                            order: 1,
+                            yAxisID: 'yTTR',
+                            datalabels: {
+                                align: 'top',
+                                color: '#000000',
+                                backgroundColor: '#ffffff',
+                                borderColor: '#000000',
+                                borderWidth: 1,
+                                borderRadius: 3,
+                                padding: { top: 1, bottom: 1, left: 3, right: 3 },
+                                font: { size: 10, weight: 'bold' },
+                                formatter: (v) => v ? v + 'h' : ''
+                            }
+                        }
+                    ]
+                },
+                options: {
+                    ...chartOptions,
+                    plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11 } } } },
+                    scales: {
+                        x: { grid: { display: false } },
+                        yTT: { type: 'linear', position: 'left', title: { display: true, text: 'Total Tiket', font: { size: 10 } }, beginAtZero: true },
+                        yTTR: { type: 'linear', position: 'right', title: { display: true, text: 'Avg MTTR (Jam)', font: { size: 10 } }, grid: { drawOnChartArea: false }, beginAtZero: true }
+                    }
+                }
+            });
+
+            chartInstances.sla = new Chart(document.getElementById('slaDonutChart'), {
+                type: 'doughnut',
+                data: { labels: ['In SLA', 'Out SLA'], datasets: [{ data: [0, 0], backgroundColor: ['#10b981', '#ef4444'] }] },
+                options: {
+                    ...chartOptions,
+                    cutout: '65%',
+                    plugins: {
+                        legend: { display: false },
+                        datalabels: {
+                            color: '#fff',
+                            font: { weight: 'bold', size: 12 },
+                            formatter: (value, ctx) => {
+                                let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                if (sum === 0 || value === 0) return '';
+                                return (value * 100 / sum).toFixed(1) + "%";
+                            }
+                        }
+                    }
+                }
+            });
+
+            chartInstances.branch = new Chart(document.getElementById('branchChart'), {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [
+                        { label: 'In SLA', data: [], backgroundColor: '#10b981', yAxisID: 'yTT', order: 2, datalabels: { align: 'center', color: '#fff', font: { size: 10, weight: 'bold' } } },
+                        { label: 'Out SLA', data: [], backgroundColor: '#ef4444', yAxisID: 'yTT', order: 2, datalabels: { align: 'center', color: '#fff', font: { size: 10, weight: 'bold' } } },
+                        { label: 'Avg MTTR (Jam)', data: [], type: 'line', borderColor: '#0284c7', backgroundColor: '#0284c7', borderWidth: 3, pointRadius: 4, fill: false, tension: 0.3, order: 1, yAxisID: 'yTTR', datalabels: { align: 'top', color: '#000000', backgroundColor: '#ffffff', borderColor: '#000000', borderWidth: 1, borderRadius: 3, padding: { top: 1, bottom: 1, left: 3, right: 3 }, font: { size: 10, weight: 'bold' }, formatter: (v) => v ? v + 'h' : '' } }
+                    ]
+                },
+                options: {
+                    ...chartOptions,
+                    plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11 } } }, datalabels: { formatter: (val) => val > 0 ? val : '' } },
+                    scales: {
+                        x: { stacked: true, grid: { display: false }, ticks: { font: { size: 10 } } },
+                        yTT: { stacked: true, type: 'linear', position: 'left', title: { display: true, text: 'Jumlah Tiket', font: { size: 10 } }, grid: { color: '#f1f5f9' }, beginAtZero: true },
+                        yTTR: { type: 'linear', position: 'right', title: { display: true, text: 'MTTR NET (Jam)', font: { size: 10 } }, grid: { drawOnChartArea: false }, beginAtZero: true }
+                    }
+                }
+            });
+
+            chartInstances.regional = new Chart(document.getElementById('regionalChart'), {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: 'Total TT',
+                            data: [],
+                            backgroundColor: '#0284c7',
+                            yAxisID: 'yTT',
+                            order: 2,
+                            datalabels: { anchor: 'end', align: 'top', color: '#0284c7', font: { weight: 'bold', size: 9 }, formatter: (val) => val > 0 ? val : '' }
+                        },
+                        {
+                            label: 'Avg MTTR (Jam)',
+                            data: [],
+                            type: 'line',
+                            borderColor: '#f97316',
+                            backgroundColor: '#f97316',
+                            borderWidth: 2.5,
+                            pointRadius: 3.5,
+                            fill: false,
+                            tension: 0.3,
+                            order: 1,
+                            yAxisID: 'yTTR',
+                            datalabels: { align: 'top', color: '#000000', backgroundColor: '#ffffff', borderColor: '#000000', borderWidth: 1, borderRadius: 3, padding: { top: 1, bottom: 1, left: 3, right: 3 }, font: { size: 9, weight: 'bold' }, formatter: (v) => v ? v + 'h' : '' }
+                        }
+                    ]
+                },
+                options: {
+                    ...chartOptions,
+                    plugins: { legend: { position: 'top', labels: { boxWidth: 10, font: { size: 10 } } } },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { font: { size: 9 } } },
+                        yTT: { type: 'linear', position: 'left', title: { display: true, text: 'Total Tiket', font: { size: 9 } }, beginAtZero: true, grid: { color: '#f1f5f9' } },
+                        yTTR: { type: 'linear', position: 'right', title: { display: true, text: 'Avg MTTR (Jam)', font: { size: 9 } }, grid: { drawOnChartArea: false }, beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        function getCleanDateOpen(row) {
+            const dt = getStartOpenTime(row);
+            if (!dt) return '(Kosong)';
+            const yyyy = dt.getFullYear();
+            const mm = String(dt.getMonth() + 1).padStart(2, '0');
+            const dd = String(dt.getDate()).padStart(2, '0');
+            return `${yyyy}-${mm}-${dd}`;
+        }
+
+        function getCleanBranch(row) {
+            const candidateKeys = ['Branch', 'BRANCH', 'Branch Name', 'Cabang', 'CABANG', 'Work Center', 'WORK CENTER', 'NSO', 'NSO Name', 'Cluster', 'CLUSTER'];
+            for (let key of candidateKeys) {
+                if (row[key] !== undefined && row[key] !== null && String(row[key]).trim() !== '' && String(row[key]).trim() !== 'NaN') {
+                    return String(row[key]).trim();
+                }
+            }
+            return 'Unassigned';
+        }
+
+        function getCleanMNO(rowOrVal) {
+            let val = rowOrVal;
+            let tiketStr = '';
+
+            if (typeof rowOrVal === 'object' && rowOrVal !== null) {
+                val = rowOrVal['MNO'];
+                tiketStr = String(rowOrVal['Tiket'] || rowOrVal['Nomor TT'] || '').trim().toUpperCase();
+            }
+
+            let mnoVal = (val !== undefined && val !== null) ? String(val).trim() : '';
+            if (mnoVal === 'NaN' || mnoVal === '-') mnoVal = '';
+
+            if (mnoVal !== '') {
+                const upper = mnoVal.toUpperCase();
+                if (upper.includes('ALITA')) return 'ALITA';
+                if (upper === 'TIS' || upper.includes('TIS') || upper.includes('IOH') || upper.includes('INDOSAT') || upper.includes('ISAT')) return 'IOH';
+                if (upper.includes('XL')) return 'XL';
+                if (upper.includes('TSEL') || upper.includes('TELKOMSEL')) return 'TSEL';
+                return mnoVal;
+            }
+
+            if (tiketStr) {
+                if (tiketStr.startsWith('TR-') || tiketStr.startsWith('TR') || tiketStr.startsWith('TTR-') || tiketStr.startsWith('TTR')) return 'XL';
+                if (tiketStr.startsWith('INC-')) return 'IOH';
+                if (tiketStr.startsWith('INC')) return 'TSEL';
+            }
+
+            return 'Other';
+        }
+
+        function getCleanValue(val) {
+            if (val === undefined || val === null || String(val).trim() === '' || String(val).trim() === 'NaN') {
+                return '(Kosong)';
+            }
+            return String(val).trim();
+        }
+
+        function getSegmentValue(row) {
+            const possibleSegmentKeys = ['Segment', 'SEGMENT', 'segment', 'Segmentasi', 'Segment Name'];
+            for (let key of possibleSegmentKeys) {
+                if (row[key] !== undefined && row[key] !== null) {
+                    return String(row[key]).trim();
+                }
+            }
+            return '';
+        }
+
+        function getMMPValue(row) {
+            const possibleMMPKeys = ['MMP', 'Nama MMP', 'MMP/Non-MMP', 'MMP / Non MMP', 'Vendor', 'Vendor Name', 'Ticket Info', 'INFO TICKET'];
+            for (let key of possibleMMPKeys) {
+                if (row[key] !== undefined && row[key] !== null) {
+                    return String(row[key]).trim();
+                }
+            }
+            return '';
+        }
+
+        const NON_SOW_SEGMENT_PATTERNS = [
+            'hasil pengukuran disisi akses normal',
+            'issue problem fo flp',
+            'link fo normal',
+            'perangkat vendor'
+        ];
+
+        function isNonSoW(row) {
+            const segVal = getSegmentValue(row);
+            if (!segVal || segVal === '' || segVal === '-' || segVal === '(Kosong)' || segVal.toLowerCase() === 'nan') {
+                return true;
+            }
+            const lowerSeg = segVal.toLowerCase();
+            return NON_SOW_SEGMENT_PATTERNS.some(pattern => lowerSeg.includes(pattern));
+        }
+
+        const NON_MMP_PATTERNS = [
+            'mitratel',
+            'mitratel - tis',
+            'polaris'
+        ];
+
+        function isNonMMP(row) {
+            const mmpVal = getMMPValue(row);
+            if (!mmpVal) return false;
+            const lowerMMP = String(mmpVal).trim().toLowerCase();
+            return NON_MMP_PATTERNS.some(pattern => lowerMMP.includes(pattern));
+        }
+
+        function handleDuplicateToggle(isChecked) {
+            deduplicateTiket = isChecked;
+            const toggleText = document.getElementById('toggleText');
+            if (isChecked) {
+                toggleText.innerText = "ON";
+                toggleText.className = "ml-1 text-[11px] font-bold text-emerald-600";
+            } else {
+                toggleText.innerText = "OFF";
+                toggleText.className = "ml-1 text-[11px] font-bold text-slate-400";
+            }
+            if (rawDataset.length) applyFilters();
+        }
+
+        function handleStopClockToggle(isChecked) {
+            applyStopClock = isChecked;
+            const toggleText = document.getElementById('toggleStopClockText');
+            const badgeText = document.getElementById('kpiAvgMTTRBadge');
+
+            if (isChecked) {
+                toggleText.innerText = "ON";
+                toggleText.className = "ml-2 text-xs font-bold text-amber-600";
+                if (badgeText) {
+                    badgeText.innerText = "Stop Clock Deduced (ON)";
+                    badgeText.className = "text-[10px] bg-amber-600/80 px-2 py-0.5 rounded font-bold";
+                }
+            } else {
+                toggleText.innerText = "OFF";
+                toggleText.className = "ml-1 text-[11px] font-bold text-slate-400";
+                if (badgeText) {
+                    badgeText.innerText = "Gross Duration (OFF)";
+                    badgeText.className = "text-[10px] bg-slate-600/80 px-2 py-0.5 rounded font-bold";
+                }
+            }
+            if (rawDataset.length) applyFilters();
+        }
+
+        function setMnoTrendGranularity(granularity) {
+            mnoTrendGranularity = granularity;
+            ['daily', 'weekly', 'monthly'].forEach(g => {
+                const btn = document.getElementById(`btnMno${g.charAt(0).toUpperCase() + g.slice(1)}`);
+                if (btn) {
+                    btn.className = (g === granularity)
+                        ? "px-2.5 py-1 rounded-md bg-sky-600 text-white shadow-sm transition"
+                        : "px-2.5 py-1 rounded-md text-gray-600 hover:text-sky-600 transition";
+                }
+            });
+            if (rawDataset.length) applyFilters();
+        }
+
+        function setMnoTrendFilter(mno) {
+            selectedMnoTrend = mno;
+            ['ALL', 'IOH', 'TSEL', 'XL', 'ALITA', 'Other'].forEach(m => {
+                const btn = document.getElementById(`btnMnoTrend_${m}`);
+                if (btn) {
+                    btn.className = (m === mno)
+                        ? "px-2.5 py-1 rounded-md bg-purple-600 text-white shadow-sm transition"
+                        : "px-2.5 py-1 rounded-md text-gray-600 hover:text-purple-600 transition";
+                }
+            });
+            if (rawDataset.length) applyFilters();
+        }
+
+        function setTimeGranularity(granularity) {
+            timeGranularity = granularity;
+            ['daily', 'weekly', 'monthly'].forEach(g => {
+                const btn = document.getElementById(`btn${g.charAt(0).toUpperCase() + g.slice(1)}`);
+                if (g === granularity) {
+                    btn.className = "px-3 py-1 rounded-md bg-sky-600 text-white shadow-sm transition";
+                } else {
+                    btn.className = "px-3 py-1 rounded-md text-gray-600 hover:text-sky-600 transition";
+                }
+            });
+            if (rawDataset.length) applyFilters();
+        }
+
+        function toggleDropdown(id) {
+            const dropdowns = ['dropdownDateOpen', 'dropdownArea', 'dropdownRegional', 'dropdownStatus', 'dropdownMNO', 'dropdownSoW', 'dropdownTicketInfo'];
+            dropdowns.forEach(d => {
+                if (d === id) {
+                    document.getElementById(d).classList.toggle('hidden');
+                } else {
+                    document.getElementById(d).classList.add('hidden');
+                }
+            });
+        }
+
+        function closeDropdowns() {
+            ['dropdownDateOpen', 'dropdownArea', 'dropdownRegional', 'dropdownStatus', 'dropdownMNO', 'dropdownSoW', 'dropdownTicketInfo'].forEach(d => {
+                const el = document.getElementById(d);
+                if (el) el.classList.add('hidden');
+            });
+        }
+
+        window.addEventListener('click', function(e) {
+            if (!e.target.closest('.relative')) {
+                closeDropdowns();
+            }
+        });
+
+        function getStopClockDuration(row) {
+            const posibles = ['Stop Clock (Jam)', 'Stop Clock', 'Stopclock', 'Stop Clock Duration', 'Durasi Stop Clock', 'Stop Clock Jam'];
+            for (let key of posibles) {
+                if (row[key] !== undefined && row[key] !== null && String(row[key]).trim() !== '') {
+                    const parsed = parseFloat(row[key]);
+                    if (!isNaN(parsed)) return parsed;
+                }
+            }
+            return 0;
+        }
+
+        function parseDateTime(val) {
+            if (!val) return null;
+            if (val instanceof Date && !isNaN(val.getTime())) return val;
+
+            if (typeof val === 'number' || (!isNaN(val) && !String(val).includes('-') && !String(val).includes('/') && !String(val).includes(':'))) {
+                const num = parseFloat(val);
+                if (num > 30000 && num < 60000) {
+                    const date = new Date((num - (25567 + 2)) * 86400 * 1000);
+                    return isNaN(date.getTime()) ? null : date;
+                }
+            }
+
+            const str = String(val).trim();
+            if (!str || str === 'NaN' || str === '-') return null;
+
+            let d = new Date(str.replace(' ', 'T'));
+            if (!isNaN(d.getTime())) return d;
+
+            const match = str.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})(?:\s+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?)?/);
+            if (match) {
+                const day = parseInt(match[1], 10);
+                const month = parseInt(match[2], 10) - 1;
+                const year = parseInt(match[3], 10);
+                const hh = match[4] ? parseInt(match[4], 10) : 0;
+                const mm = match[5] ? parseInt(match[5], 10) : 0;
+                const ss = match[6] ? parseInt(match[6], 10) : 0;
+                d = new Date(year, month, day, hh, mm, ss);
+                if (!isNaN(d.getTime())) return d;
+            }
+
+            return null;
+        }
+
+        function getStartOpenTime(row) {
+            const openKeys = ['Start TT Open Time', 'TT Open Time', 'Open Time', 'Start Open Time', 'Created Time', 'TT Start Time', 'Time Open'];
+            for (let key of openKeys) {
+                if (row[key] !== undefined && row[key] !== null && String(row[key]).trim() !== '' && String(row[key]).trim() !== '0') {
+                    const dt = parseDateTime(row[key]);
+                    if (dt) return dt;
+                }
+            }
+            return null;
+        }
+
+        function getReqCloseTime(row) {
+            const reqCloseKeys = ['Req Close Time', 'Req Close', 'Request Close Time', 'Request Close', 'Req Close Date', 'Req Closed Time', 'TT Req Close Time', 'Time Req Close'];
+            for (let key of reqCloseKeys) {
+                if (row[key] !== undefined && row[key] !== null && String(row[key]).trim() !== '' && String(row[key]).trim() !== '0') {
+                    const dt = parseDateTime(row[key]);
+                    if (dt) return dt;
+                }
+            }
+            return null;
+        }
+
+        function getClosedTime(row) {
+            const closedKeys = ['Closed Time', 'Tech Close Time', 'Technical Close Time', 'Time Tech Close', 'Tech Close Date', 'Tech Close', 'End TT Closed Time', 'TT Tech Close Time', 'Date Tech Close', 'TT Closed Time', 'Close Time', 'Closed Date'];
+            for (let key of closedKeys) {
+                if (row[key] !== undefined && row[key] !== null && String(row[key]).trim() !== '' && String(row[key]).trim() !== '0') {
+                    const dt = parseDateTime(row[key]);
+                    if (dt) return dt;
+                }
+            }
+            return null;
+        }
+
+        function calculateTTRFromTimelyReport(row) {
+            let rawTTR = 0;
+            let calculatedDirectly = false;
+
+            const openDate = getStartOpenTime(row);
+            const reqCloseDate = getReqCloseTime(row);
+            const closedDate = getClosedTime(row);
+
+            const endDate = reqCloseDate || closedDate;
+
+            if (openDate && endDate) {
+                const diffHours = (endDate - openDate) / (1000 * 60 * 60);
+                if (diffHours >= 0) {
+                    rawTTR = parseFloat(diffHours.toFixed(2));
+                    calculatedDirectly = true;
+                }
+            }
+
+            if (!calculatedDirectly) {
+                const defaultVal = parseFloat(row['TTR NET (Jam)'] || row['TTR Gross (Jam)'] || row['TTR (Jam)'] || row['TTR']);
+                rawTTR = isNaN(defaultVal) ? 0 : defaultVal;
+            }
+
+            if (applyStopClock) {
+                const scHours = getStopClockDuration(row);
+                const netTTR = rawTTR - scHours;
+                return netTTR >= 0 ? parseFloat(netTTR.toFixed(2)) : 0;
+            } else {
+                return rawTTR;
+            }
+        }
+
+        function extractRCA(row) {
+            if (row['RCA'] && String(row['RCA']).trim() !== '' && String(row['RCA']).trim() !== '-') {
+                return String(row['RCA']).trim();
+            }
+
+            const timelyText = String(row['Timely Report'] || '');
+            if (timelyText) {
+                const matchHeader = timelyText.match(/Rootcause:\s*(.*?)(?=\n|Action:|$)/i);
+                if (matchHeader && matchHeader[1].trim()) return matchHeader[1].trim();
+
+                const matchLog = [...timelyText.matchAll(/RCA:\s*(.*?)(?=\n|$)/gi)];
+                if (matchLog.length > 0) {
+                    const lastMatch = matchLog[matchLog.length - 1][1].trim();
+                    if (lastMatch) return lastMatch;
+                }
+            }
+
+            const allRcaText = String(row['All RCA'] || '');
+            if (allRcaText) {
+                const matchAllRca = allRcaText.match(/RCA 1\s*:\s*(.*?)(?=\n|$)/i);
+                if (matchAllRca && matchAllRca[1].trim()) return matchAllRca[1].trim();
+            }
+
+            return null;
+        }
+
+        // Fallback: Manual Upload File jika ingin upload lokal
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+
+                    rawDataset = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
+
+                    populateFilterDropdowns(rawDataset);
+                    applyFilters();
+
+                    const badgeText = document.getElementById('gsStatusText');
+                    if (badgeText) badgeText.innerText = "File Lokal Diberdayakan";
+                } catch (err) {
+                    alert("Gagal membaca file Excel!");
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function populateFilterDropdowns(data) {
+            const dateOpens = new Set();
+            const areas = new Set();
+            const regionals = new Set();
+            const statuses = new Set();
+            const mnos = new Set();
+
+            data.forEach(row => {
+                dateOpens.add(getCleanDateOpen(row));
+                areas.add(getCleanValue(row['Area']));
+                regionals.add(getCleanValue(row['Regional MTEL']));
+                statuses.add(getCleanValue(row['Status']));
+                mnos.add(getCleanMNO(row));
+            });
+
+            filterOptions.DateOpen = Array.from(dateOpens).sort();
+            filterOptions.Area = Array.from(areas).sort();
+            filterOptions.Regional = Array.from(regionals).sort();
+            filterOptions.Status = Array.from(statuses).sort();
+            filterOptions.MNO = Array.from(mnos).sort();
+            filterOptions.SoW = ['SoW', 'Non-SoW'];
+            filterOptions.TicketInfo = ['MMP', 'Non-MMP'];
+
+            selectedFilters.DateOpen = [...filterOptions.DateOpen];
+            selectedFilters.Area = [...filterOptions.Area];
+            selectedFilters.Regional = [...filterOptions.Regional];
+            selectedFilters.Status = [...filterOptions.Status];
+            selectedFilters.MNO = [...filterOptions.MNO];
+            
+            if (!selectedFilters.SoW || !selectedFilters.SoW.length) {
+                selectedFilters.SoW = ['SoW'];
+            }
+            if (!selectedFilters.TicketInfo || !selectedFilters.TicketInfo.length) {
+                selectedFilters.TicketInfo = ['MMP'];
+            }
+
+            fillMultiSelectOptions('DateOpen');
+            fillMultiSelectOptions('Area');
+            fillMultiSelectOptions('Regional');
+            fillMultiSelectOptions('Status');
+            fillMultiSelectOptions('MNO');
+            fillMultiSelectOptions('SoW');
+            fillMultiSelectOptions('TicketInfo');
+        }
+
+        function fillMultiSelectOptions(category) {
+            const container = document.getElementById(`options${category}`);
+            if (!container) return;
+            container.innerHTML = '';
+
+            filterOptions[category].forEach(item => {
+                const isChecked = selectedFilters[category].includes(item);
+                const label = document.createElement('label');
+                label.className = 'flex items-center px-2 py-1 hover:bg-sky-50 rounded cursor-pointer text-xs';
+                label.innerHTML = `
+                    <input type="checkbox" value="${item}" ${isChecked ? 'checked' : ''} onchange="onItemCheckChange('${category}')" class="chk-${category} mr-2 rounded text-sky-600"> ${item}
+                `;
+                container.appendChild(label);
+            });
+
+            updateFilterLabel(category);
+        }
+
+        function toggleSelectAll(category) {
+            const chkAll = document.getElementById(`chkAll${category}`);
+            const isChecked = chkAll ? chkAll.checked : false;
+            const checkboxes = document.querySelectorAll(`.chk-${category}`);
+            checkboxes.forEach(chk => chk.checked = isChecked);
+
+            if (isChecked) {
+                selectedFilters[category] = [...filterOptions[category]];
+            } else {
+                selectedFilters[category] = [];
+            }
+
+            updateFilterLabel(category);
+            applyFilters();
+        }
+
+        function onItemCheckChange(category) {
+            const checkboxes = document.querySelectorAll(`.chk-${category}`);
+            const selected = [];
+            checkboxes.forEach(chk => {
+                if (chk.checked) selected.push(chk.value);
+            });
+
+            selectedFilters[category] = selected;
+
+            const chkAll = document.getElementById(`chkAll${category}`);
+            if (chkAll) {
+                chkAll.checked = selected.length === filterOptions[category].length;
+            }
+
+            updateFilterLabel(category);
+            applyFilters();
+        }
+
+        function updateFilterLabel(category) {
+            const count = selectedFilters[category] ? selectedFilters[category].length : 0;
+            const total = filterOptions[category] ? filterOptions[category].length : 0;
+            const labelSpan = document.getElementById(`label${category}`);
+            if (!labelSpan) return;
+
+            let categoryDisplayName = category;
+            if (category === 'SoW') categoryDisplayName = 'SoW';
+            else if (category === 'TicketInfo') categoryDisplayName = 'Ticket Info';
+            else if (category === 'DateOpen') categoryDisplayName = 'Tgl Open';
+            else if (category === 'Regional') categoryDisplayName = 'Reg.';
+
+            if (count === total || total === 0) {
+                labelSpan.innerText = `${categoryDisplayName}: Semua (${count})`;
+            } else if (count === 0) {
+                labelSpan.innerText = `${categoryDisplayName}: Tidak ada`;
+            } else if (category === 'SoW' && count === 1 && selectedFilters.SoW.includes('SoW')) {
+                labelSpan.innerText = `SoW: SoW Only (${count}/${total})`;
+            } else if (category === 'TicketInfo' && count === 1 && selectedFilters.TicketInfo.includes('MMP')) {
+                labelSpan.innerText = `Ticket Info: MMP Only (${count}/${total})`;
+            } else {
+                labelSpan.innerText = `${categoryDisplayName}: ${count}/${total} Dipilih`;
+            }
+        }
+
+        function applyFilters() {
+            if (!rawDataset.length) return;
+
+            let filtered = rawDataset.filter(row => {
+                const matchDateOpen = selectedFilters.DateOpen.includes(getCleanDateOpen(row));
+                const matchArea = selectedFilters.Area.includes(getCleanValue(row['Area']));
+                const matchRegional = selectedFilters.Regional.includes(getCleanValue(row['Regional MTEL']));
+                const matchStatus = selectedFilters.Status.includes(getCleanValue(row['Status']));
+                const matchMNO = selectedFilters.MNO.includes(getCleanMNO(row));
+
+                const rowIsNonSoW = isNonSoW(row);
+                const rowSoWCategory = rowIsNonSoW ? 'Non-SoW' : 'SoW';
+                const matchSoW = selectedFilters.SoW.includes(rowSoWCategory);
+
+                const rowIsNonMMP = isNonMMP(row);
+                const rowTicketInfoCategory = rowIsNonMMP ? 'Non-MMP' : 'MMP';
+                const matchTicketInfo = selectedFilters.TicketInfo.includes(rowTicketInfoCategory);
+
+                return matchDateOpen && matchArea && matchRegional && matchStatus && matchMNO && matchSoW && matchTicketInfo;
+            });
+
+            if (deduplicateTiket) {
+                const seenTiket = new Set();
+                const uniqueFiltered = [];
+
+                filtered.forEach(row => {
+                    const tKey = (row['Tiket'] && String(row['Tiket']).trim() !== '' && String(row['Tiket']).trim() !== 'NaN')
+                        ? String(row['Tiket']).trim()
+                        : (row['Nomor TT'] ? `NOMOR_${row['Nomor TT']}` : null);
+
+                    if (tKey) {
+                        if (!seenTiket.has(tKey)) {
+                            seenTiket.add(tKey);
+                            uniqueFiltered.push(row);
+                        }
+                    } else {
+                        uniqueFiltered.push(row);
+                    }
+                });
+
+                filtered = uniqueFiltered;
+            }
+
+            renderDashboard(filtered);
+        }
+
+        function getGroupKeyInfo(openTimeStr, granularity) {
+            if (!openTimeStr) return { sortKey: '9999-99-99', label: 'Unknown' };
+            const dt = new Date(openTimeStr);
+            if (isNaN(dt.getTime())) return { sortKey: '9999-99-99', label: 'Unknown' };
+
+            const year = dt.getFullYear();
+            const monthNum = String(dt.getMonth() + 1).padStart(2, '0');
+            const dayNum = String(dt.getDate()).padStart(2, '0');
+
+            const monthNamesIndo = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+            if (granularity === 'monthly') {
+                return { sortKey: `${year}-${monthNum}`, label: `${monthNamesIndo[dt.getMonth()]} ${year}` };
+            }
+
+            if (granularity === 'weekly') {
+                const target = new Date(dt.valueOf());
+                const dayNr = (dt.getDay() + 6) % 7;
+                target.setDate(target.getDate() - dayNr + 3);
+                const firstThursday = target.valueOf();
+                target.setMonth(0, 1);
+                if (target.getDay() !== 4) {
+                    target.setMonth(0, 1 + ((4 - target.getDay() + 7) % 7));
+                }
+                const weekNum = 1 + Math.round((firstThursday - target) / 604800000);
+                const formattedWeek = String(weekNum).padStart(2, '0');
+                return { sortKey: `${target.getFullYear()}-W${formattedWeek}`, label: `Week-${formattedWeek}` };
+            }
+
+            return { sortKey: `${year}-${monthNum}-${dayNum}`, label: `${year}-${monthNum}-${dayNum}` };
+        }
+
+        function renderDashboard(data) {
+            const totalTT = data.length;
+            if (totalTT === 0) {
+                document.getElementById('kpiTotalTT').innerText = "0";
+                document.getElementById('kpiClosedTT').innerText = "0";
+                document.getElementById('kpiCancelledTT').innerText = "0";
+                document.getElementById('kpiAvgMTTR').innerHTML = `0.00 <span class="text-sm font-normal">Jam</span>`;
+                document.getElementById('kpiSLA').innerText = `0.0%`;
+                return;
+            }
+
+            let closedCount = 0;
+            let cancelledCount = 0;
+            let sumTTR = 0;
+            let inSLACount = 0;
+            let validTTRCount = 0;
+
+            const rcaCounts = {};
+            const mnoData = {};
+            const regionalCounts = {};
+            const branchData = {};
+            const trendData = {};
+            const spanPairCounts = {};
+
+            markersLayer.clearLayers();
+            let markerCount = 0;
+
+            data.forEach(row => {
+                const statusStr = String(row['Status'] || '');
+                if (statusStr === 'Closed' || statusStr === 'Tech Close') closedCount++;
+                if (statusStr.includes('Cancelled')) cancelledCount++;
+
+                const ttrVal = calculateTTRFromTimelyReport(row);
+                if (!isNaN(ttrVal)) {
+                    sumTTR += ttrVal;
+                    validTTRCount++;
+                    if (ttrVal <= 4.0) inSLACount++;
+                }
+
+                const parsedRca = extractRCA(row);
+                if (parsedRca) rcaCounts[parsedRca] = (rcaCounts[parsedRca] || 0) + 1;
+
+                const siteDownID = String(row['Site Down ID'] || '').trim();
+                const siteDetectorID = String(row['Site Detector ID'] || '').trim();
+
+                if (siteDownID && siteDetectorID && siteDownID !== 'NaN' && siteDetectorID !== 'NaN') {
+                    const normalizedPair = siteDownID <= siteDetectorID ? `${siteDownID} <> ${siteDetectorID}` : `${siteDetectorID} <> ${siteDownID}`;
+                    if (!spanPairCounts[normalizedPair]) spanPairCounts[normalizedPair] = { count: 0, rcaList: {} };
+                    spanPairCounts[normalizedPair].count++;
+                    if (parsedRca) spanPairCounts[normalizedPair].rcaList[parsedRca] = (spanPairCounts[normalizedPair].rcaList[parsedRca] || 0) + 1;
+                }
+
+                const mnoVal = getCleanMNO(row);
+                if (!mnoData[mnoVal]) mnoData[mnoVal] = { count: 0, sumTTR: 0 };
+                mnoData[mnoVal].count++;
+                if (!isNaN(ttrVal)) mnoData[mnoVal].sumTTR += ttrVal;
+
+                const regVal = row['Regional MTEL'] || 'Unspecified';
+                if (regVal) {
+                    if (!regionalCounts[regVal]) regionalCounts[regVal] = { count: 0, sumTTR: 0, validCount: 0 };
+                    regionalCounts[regVal].count++;
+                    if (!isNaN(ttrVal)) {
+                        regionalCounts[regVal].sumTTR += ttrVal;
+                        regionalCounts[regVal].validCount++;
+                    }
+                }
+
+                const branchVal = getCleanBranch(row);
+                if (!branchData[branchVal]) branchData[branchVal] = { count: 0, inSLA: 0, outSLA: 0, sumTTR: 0, validTTRCount: 0 };
+                branchData[branchVal].count++;
+                if (!isNaN(ttrVal)) {
+                    branchData[branchVal].sumTTR += ttrVal;
+                    branchData[branchVal].validTTRCount++;
+                    if (ttrVal <= 4.0) branchData[branchVal].inSLA++;
+                    else branchData[branchVal].outSLA++;
+                }
+
+                const gInfo = getGroupKeyInfo(row['Start TT Open Time'], timeGranularity);
+                const sKey = gInfo.sortKey;
+                if (!trendData[sKey]) trendData[sKey] = { label: gInfo.label, inSLA: 0, outSLA: 0, sumTTR: 0, count: 0 };
+
+                trendData[sKey].count++;
+                if (!isNaN(ttrVal)) {
+                    trendData[sKey].sumTTR += ttrVal;
+                    if (ttrVal <= 4.0) trendData[sKey].inSLA++;
+                    else trendData[sKey].outSLA++;
+                }
+
+                const tiketID = row['Tiket'] || row['Nomor TT'] || 'TT';
+                if (row['Koordinat'] && markerCount < 150) {
+                    try {
+                        const parts = String(row['Koordinat']).split(',');
+                        if (parts.length === 2) {
+                            const lat = parseFloat(parts[0].trim());
+                            const lng = parseFloat(parts[1].trim());
+                            if (!isNaN(lat) && !isNaN(lng) && lat >= -11 && lat <= 6 && lng >= 95 && lng <= 141) {
+                                L.marker([lat, lng], { icon: redIcon }).addTo(markersLayer)
+                                    .bindPopup(`
+                                        <div class="text-xs">
+                                            <b class="text-red-600 font-bold">Tiket: ${tiketID}</b><br>
+                                            <b>Site:</b> ${row['Site Down Name'] || '-'}<br>
+                                            <b>Regional:</b> ${row['Regional MTEL'] || '-'}<br>
+                                            <b>MNO:</b> ${getCleanMNO(row)}<br>
+                                            <b>TTR Net (Timely):</b> ${ttrVal} Jam<br>
+                                            <b>Status:</b> ${statusStr}
+                                        </div>
+                                    `);
+                                markerCount++;
+                            }
+                        }
+                    } catch(e) {}
+                }
+            });
+
+            // Update Span Table
+            const sortedSpans = Object.entries(spanPairCounts).sort((a,b) => b[1].count - a[1].count);
+            const spanTableBody = document.getElementById('spanTableBody');
+            spanTableBody.innerHTML = '';
+
+            const spanCounter = document.getElementById('spanCounter');
+            if (spanCounter) spanCounter.innerText = `${sortedSpans.length} Span Pair`;
+
+            if (sortedSpans.length === 0) {
+                spanTableBody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-gray-400">Tidak ada data span repetitive.</td></tr>';
+            } else {
+                sortedSpans.forEach(([pairName, info], index) => {
+                    const tr = document.createElement('tr');
+                    tr.className = index % 2 === 0 ? 'bg-white border-b hover:bg-sky-50/50 transition' : 'bg-slate-50/70 border-b hover:bg-sky-50/50 transition';
+
+                    const rcaEntries = Object.entries(info.rcaList).sort((a,b) => b[1] - a[1]);
+                    let rcaFormatted = '-';
+                    if (rcaEntries.length > 0) {
+                        rcaFormatted = rcaEntries.map(([rca, cnt]) => `<span class="inline-block bg-slate-100 text-slate-700 rounded px-1.5 py-0.5 text-[10px] mr-1 mb-0.5 border border-slate-200"><b>${rca}</b> <span class="text-sky-600 font-bold">(${cnt})</span></span>`).join(' ');
+                    }
+
+                    tr.innerHTML = `
+                        <td class="px-2 py-2 font-bold text-gray-500">${index + 1}</td>
+                        <td class="px-2 py-2 font-mono text-[11px] text-sky-700 font-semibold">${pairName}</td>
+                        <td class="px-2 py-2 text-center font-bold ${info.count > 1 ? 'text-red-600 bg-red-50/80 rounded' : 'text-gray-600'}">${info.count} TT</td>
+                        <td class="px-2 py-2 text-[11px]">${rcaFormatted}</td>
+                    `;
+                    spanTableBody.appendChild(tr);
+                });
+            }
+
+            // Update KPI
+            const avgTTR = validTTRCount > 0 ? (sumTTR / validTTRCount) : 0;
+            const slaCompliance = totalTT > 0 ? ((inSLACount / totalTT) * 100) : 0;
+
+            document.getElementById('kpiTotalTT').innerText = totalTT.toLocaleString('id-ID');
+            document.getElementById('kpiClosedTT').innerText = closedCount.toLocaleString('id-ID');
+            document.getElementById('kpiCancelledTT').innerText = cancelledCount.toLocaleString('id-ID');
+            document.getElementById('kpiAvgMTTR').innerHTML = `${avgTTR.toFixed(2)} <span class="text-sm font-normal">Jam</span>`;
+            document.getElementById('kpiSLA').innerText = `${slaCompliance.toFixed(1)}%`;
+            document.getElementById('mapCounter').innerHTML = `<i class="fa-solid fa-ticket text-red-500 mr-1"></i>${markerCount} Tiket`;
+
+            const totalBadge = document.getElementById('kpiTotalBadge');
+            if (deduplicateTiket) {
+                totalBadge.innerText = "Tiket Unique (ON)";
+                totalBadge.className = "text-[10px] bg-emerald-600/90 px-2 py-0.5 rounded font-bold";
+            } else {
+                totalBadge.innerText = "Semua Record (OFF)";
+                totalBadge.className = "text-[10px] bg-slate-600/90 px-2 py-0.5 rounded font-bold";
+            }
+
+            // Update RCA Chart
+            const sortedRCA = Object.entries(rcaCounts).sort((a,b) => b[1] - a[1]).slice(0, 10);
+            chartInstances.rca.data.labels = sortedRCA.map(x => x[0].length > 25 ? x[0].substring(0,23)+'...' : x[0]);
+            chartInstances.rca.data.datasets[0].data = sortedRCA.map(x => x[1]);
+            chartInstances.rca.update();
+
+            // Update MNO Combo
+            const sortedMNO = Object.entries(mnoData).sort((a,b) => b[1].count - a[1].count);
+            chartInstances.mnoCombo.data.labels = sortedMNO.map(x => x[0]);
+            chartInstances.mnoCombo.data.datasets[0].data = sortedMNO.map(x => x[1].count);
+            chartInstances.mnoCombo.data.datasets[1].data = sortedMNO.map(x => (x[1].count > 0 ? (x[1].sumTTR / x[1].count).toFixed(2) : 0));
+            chartInstances.mnoCombo.update();
+
+            // Update SLA Donut
+            chartInstances.sla.data.datasets[0].data = [inSLACount, totalTT - inSLACount];
+            chartInstances.sla.update();
+
+            // Update Regional Chart
+            const sortedReg = Object.entries(regionalCounts).sort((a,b) => b[1].count - a[1].count);
+            chartInstances.regional.data.labels = sortedReg.map(x => x[0]);
+            chartInstances.regional.data.datasets[0].data = sortedReg.map(x => x[1].count);
+            chartInstances.regional.data.datasets[1].data = sortedReg.map(x => (x[1].validCount > 0 ? (x[1].sumTTR / x[1].validCount).toFixed(2) : 0));
+            chartInstances.regional.update();
+
+            // Update MTTR Trend Chart
+            const sortedKeys = Object.keys(trendData).sort();
+            chartInstances.trend.data.labels = sortedKeys.map(k => trendData[k].label);
+            chartInstances.trend.data.datasets[0].data = sortedKeys.map(k => trendData[k].inSLA);
+            chartInstances.trend.data.datasets[1].data = sortedKeys.map(k => trendData[k].outSLA);
+            chartInstances.trend.data.datasets[2].data = sortedKeys.map(k => (trendData[k].count > 0 ? (trendData[k].sumTTR / trendData[k].count).toFixed(2) : 0));
+            chartInstances.trend.update();
+
+            // Update MNO Trend Chart
+            const mnoTrendData = {};
+            const mnos = ['IOH', 'XL', 'TSEL', 'ALITA'];
+
+            data.forEach(row => {
+                const mnoVal = getCleanMNO(row);
+                if (selectedMnoTrend === 'ALL' || mnoVal.toUpperCase() === selectedMnoTrend.toUpperCase()) {
+                    const gInfoMno = getGroupKeyInfo(row['Start TT Open Time'], mnoTrendGranularity);
+                    const sKeyMno = gInfoMno.sortKey;
+                    if (!mnoTrendData[sKeyMno]) {
+                        mnoTrendData[sKeyMno] = {
+                            label: gInfoMno.label, sumTTR: 0, count: 0,
+                            mno: {
+                                IOH: { inSLA: 0, outSLA: 0, sumTTR: 0, count: 0 },
+                                XL: { inSLA: 0, outSLA: 0, sumTTR: 0, count: 0 },
+                                TSEL: { inSLA: 0, outSLA: 0, sumTTR: 0, count: 0 },
+                                ALITA: { inSLA: 0, outSLA: 0, sumTTR: 0, count: 0 }
+                            }
+                        };
+                    }
+                    const ttrVal = calculateTTRFromTimelyReport(row);
+                    mnoTrendData[sKeyMno].count++;
+                    if (!isNaN(ttrVal)) {
+                        mnoTrendData[sKeyMno].sumTTR += ttrVal;
+                        const mnoUpper = mnoVal.toUpperCase();
+                        const targetMNO = mnos.includes(mnoUpper) ? mnoUpper : (mnos.find(m => mnoUpper.includes(m)) || null);
+                        if (targetMNO && mnoTrendData[sKeyMno].mno[targetMNO]) {
+                            mnoTrendData[sKeyMno].mno[targetMNO].count++;
+                            mnoTrendData[sKeyMno].mno[targetMNO].sumTTR += ttrVal;
+                            if (ttrVal <= 4.0) mnoTrendData[sKeyMno].mno[targetMNO].inSLA++;
+                            else mnoTrendData[sKeyMno].mno[targetMNO].outSLA++;
+                        }
+                    }
+                }
+            });
+
+            const sortedMnoTrendKeys = Object.keys(mnoTrendData).sort();
+            chartInstances.mnoTrend.data.labels = sortedMnoTrendKeys.map(k => mnoTrendData[k].label);
+
+            chartInstances.mnoTrend.data.datasets[0].data = sortedMnoTrendKeys.map(k => mnoTrendData[k].mno.IOH.inSLA);
+            chartInstances.mnoTrend.data.datasets[1].data = sortedMnoTrendKeys.map(k => mnoTrendData[k].mno.IOH.outSLA);
+            chartInstances.mnoTrend.data.datasets[2].data = sortedMnoTrendKeys.map(k => mnoTrendData[k].mno.XL.inSLA);
+            chartInstances.mnoTrend.data.datasets[3].data = sortedMnoTrendKeys.map(k => mnoTrendData[k].mno.XL.outSLA);
+            chartInstances.mnoTrend.data.datasets[4].data = sortedMnoTrendKeys.map(k => mnoTrendData[k].mno.TSEL.inSLA);
+            chartInstances.mnoTrend.data.datasets[5].data = sortedMnoTrendKeys.map(k => mnoTrendData[k].mno.TSEL.outSLA);
+            chartInstances.mnoTrend.data.datasets[6].data = sortedMnoTrendKeys.map(k => mnoTrendData[k].mno.ALITA.inSLA);
+            chartInstances.mnoTrend.data.datasets[7].data = sortedMnoTrendKeys.map(k => mnoTrendData[k].mno.ALITA.outSLA);
+
+            chartInstances.mnoTrend.data.datasets[8].data = sortedMnoTrendKeys.map(k => (mnoTrendData[k].count > 0 ? (mnoTrendData[k].sumTTR / mnoTrendData[k].count).toFixed(2) : 0));
+            chartInstances.mnoTrend.data.datasets[9].data = sortedMnoTrendKeys.map(k => (mnoTrendData[k].mno.IOH.count > 0 ? (mnoTrendData[k].mno.IOH.sumTTR / mnoTrendData[k].mno.IOH.count).toFixed(2) : null));
+            chartInstances.mnoTrend.data.datasets[10].data = sortedMnoTrendKeys.map(k => (mnoTrendData[k].mno.XL.count > 0 ? (mnoTrendData[k].mno.XL.sumTTR / mnoTrendData[k].mno.XL.count).toFixed(2) : null));
+            chartInstances.mnoTrend.data.datasets[11].data = sortedMnoTrendKeys.map(k => (mnoTrendData[k].mno.TSEL.count > 0 ? (mnoTrendData[k].mno.TSEL.sumTTR / mnoTrendData[k].mno.TSEL.count).toFixed(2) : null));
+            chartInstances.mnoTrend.data.datasets[12].data = sortedMnoTrendKeys.map(k => (mnoTrendData[k].mno.ALITA.count > 0 ? (mnoTrendData[k].mno.ALITA.sumTTR / mnoTrendData[k].mno.ALITA.count).toFixed(2) : null));
+
+            chartInstances.mnoTrend.update();
+
+            // Update Branch Chart & Table
+            const sortedBranch = Object.entries(branchData).sort((a,b) => b[1].count - a[1].count);
+            const branchCounter = document.getElementById('branchCounter');
+            if (branchCounter) branchCounter.innerText = `${sortedBranch.length} Branch`;
+
+            chartInstances.branch.data.labels = sortedBranch.map(x => x[0]);
+            chartInstances.branch.data.datasets[0].data = sortedBranch.map(x => x[1].inSLA);
+            chartInstances.branch.data.datasets[1].data = sortedBranch.map(x => x[1].outSLA);
+            chartInstances.branch.data.datasets[2].data = sortedBranch.map(x => (x[1].validTTRCount > 0 ? (x[1].sumTTR / x[1].validTTRCount).toFixed(2) : 0));
+            chartInstances.branch.update();
+
+            const branchTableBody = document.getElementById('branchTableBody');
+            if (branchTableBody) {
+                branchTableBody.innerHTML = '';
+                if (sortedBranch.length === 0) {
+                    branchTableBody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-gray-400">Tidak ada data Branch.</td></tr>';
+                } else {
+                    sortedBranch.forEach(([bName, bInfo], idx) => {
+                        const tr = document.createElement('tr');
+                        tr.className = idx % 2 === 0 ? 'bg-white border-b hover:bg-slate-50 transition' : 'bg-slate-50/70 border-b hover:bg-slate-50 transition';
+                        const slaPct = bInfo.count > 0 ? ((bInfo.inSLA / bInfo.count) * 100).toFixed(1) : '0.0';
+                        const avgMttr = bInfo.validTTRCount > 0 ? (bInfo.sumTTR / bInfo.validTTRCount).toFixed(2) : '0.00';
+
+                        tr.innerHTML = `
+                            <td class="px-2.5 py-2 font-bold text-gray-700 text-[11px]">${bName}</td>
+                            <td class="px-2 py-2 text-center font-bold text-slate-800 text-[11px]">${bInfo.count}</td>
+                            <td class="px-2 py-2 text-center text-[11px]">
+                                <span class="px-1.5 py-0.5 rounded text-[10px] font-bold ${parseFloat(slaPct) >= 90 ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${slaPct}%</span>
+                            </td>
+                            <td class="px-2 py-2 text-center font-semibold text-sky-700 text-[11px]">${avgMttr}h</td>
+                        `;
+                        branchTableBody.appendChild(tr);
+                    });
+                }
+            }
+        }
+
+        // INISIALISASI SAAT HALAMAN DIMUAT
+        window.addEventListener('DOMContentLoaded', () => {
+            initMap();
+            initCharts();
+            loadGoogleSheetData(); // OTO-FETCH DATA SPREADSHEET
+        });
+    </script>
+</body>
+</html>
